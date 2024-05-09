@@ -1,0 +1,172 @@
+// usamos la ESTRUCTURA empleado
+estructura Empleado:
+    cadena nombre
+    arreglo de flotante sueldos[12]
+
+// punto 1 obtener nombres del archivo nomina.txt y los guaramos 
+Funcion CargarEmpleados():
+    Lista de Empleado empleados
+    Cadena archivo = "nomina.txt"
+    
+    Archivo archivoEmpleados = AbrirArchivo(archivo, "lectura")
+
+    Mientras NoFinDeArchivo(archivoEmpleados):
+        Empleado emp
+        emp.nombre = LeerLinea(archivoEmpleados)
+        empleados.Agregar(emp)
+
+    CerrarArchivo(archivoEmpleados)
+
+    Devolver empleados
+Fin Funcion
+
+// para calcular los sueldos, las horas trabajadas y su valor seran ingresados por el usuario.
+Funcion CargarSueldos(empleados):
+    Para cada empleado en empleados:
+        Para cada mes en 1 hasta 12:
+            Imprimir "Ingrese horas trabajadas por " + empleado.nombre + " en el mes " + meses[mes] + ": "
+            Leer horas
+            Imprimir "Ingrese el valor de la hora: "
+            Leer precioHora
+            empleado.sueldos[mes] = horas * precioHora
+        Fin Para
+    Fin Para
+Fin Funcion
+
+// usamos Matriz
+// punto 2 sumamos los sueldos mensuales de cada empleado y mostramos el total anual de cada uno, retornamos matriz con sueldo anual
+Funcion SueldoAnual(empleados):
+    Entero indice = 0
+    Matriz flotante sueldosAnuales
+
+    Para cada empleado en empleados:
+        flotante sueldoTotal = 0
+        Para cada mes en 1 hasta 12:
+            sueldoTotal = sueldoTotal + empleado.sueldos[mes]
+        Fin Para
+        Imprimir empleado.nombre + ": $" + sueldoTotal
+
+        // guaardamos el indice del empleado y su sueldo total anual correspondiente en la matriz
+        sueldosAnuales[indice][0] = indice
+        sueldosAnuales[indice][1] = sueldoTotal
+        indice += 1
+    Fin Para
+
+    Devolver sueldosAnuales
+Fin Funcion
+
+
+// punto 3 calculamos el total de sueldos pagados en el año
+Funcion CalcularTotalSueldosPorMes(empleados):
+    Para cada mes en 1 hasta 12:
+        flotante totalSueldosMes = 0
+        Para cada empleado en empleados:
+            totalSueldosMes += empleado.sueldos[mes]
+        Fin Para
+        Imprimir "Total de sueldos pagados en el mes " + meses[mes] + ": $" + totalSueldosMes
+    Fin Para
+Fin Funcion
+
+// punto 4 calculamos y mostramos el sueldo maximo de cada mes
+Funcion CalcularMaximoSueldoMensual(empleados):
+    arreglo de flotante maximosSueldos[12]
+    
+    Para cada mes en 1 hasta 12:
+        maximosSueldos[mes] = 0
+    Fin Para
+
+    Para cada empleado en empleados:
+        Para cada mes en 1 hasta 12:
+            Si empleado.sueldos[mes] > maximosSueldos[mes] Entonces
+                maximosSueldos[mes] = empleado.sueldos[mes]
+            Fin Si
+        Fin Para
+    Fin Para
+
+    Para cada mes en 1 hasta 12:
+        Imprimir "El máximo sueldo pagado en el mes de " + meses[mes] + " es: " + maximosSueldos[mes]
+    Fin Para
+Fin Funcion
+
+// punto 5 mostramos porcentaje que representa el sueldo de cada empleado en un mes especifico ingresado por el usuario
+Funcion MostrarPorcentajeSueldo(empleados):
+    Entero mes
+    flotante totalMes = 0
+    
+    Imprimir "Ingrese con número el mes del cual quiere saber el porcentaje: "
+    Leer mes
+
+    Para cada empleado en empleados:
+        totalMes += empleado.sueldos[mes]
+    Fin Para
+
+    Imprimir "Porcentajes de sueldos para el mes de " + meses[mes] + ": "
+
+    Para cada empleado en empleados:
+        flotante porcentaje = (empleado.sueldos[mes] / totalMes) * 100
+        Imprimir "Empleado " + empleado.nombre + ": " + porcentaje + "% del total"
+    Fin Para
+Fin Funcion
+
+// punto 6 mostramos el nombre y sueldo del empleado que menos cobro teniendo en cuenta el primer semestre
+Funcion EmpleadoMenorSueldoPrimerSemestre(empleados):
+    flotante menorSueldo = 0
+    Cadena empleadoMenorSueldo
+    
+    Para cada empleado en empleados:
+        flotante sueldoPrimerSemestre = 0
+        Para cada mes en 1 hasta 6:
+            sueldoPrimerSemestre += empleado.sueldos[mes]
+        Fin Para
+
+        Si sueldoPrimerSemestre < menorSueldo Entonces
+            menorSueldo = sueldoPrimerSemestre
+            empleadoMenorSueldo = empleado.nombre
+        Fin Si
+    Fin Para
+    
+    Imprimir "El empleado con el menor sueldo en el primer semestre es: " + empleadoMenorSueldo + " este cobro: $" + menorSueldo 
+Fin Funcion
+
+// punto 7 mostramos cantidad total de meses en los que se pago menos de 4 millones en razon de sueldos
+Funcion ContarMesesConMenosDeCuatroMillones(empleados):
+    Entero cantidadMesesMenosDeCuatroMillones = 0
+
+    Para cada mes en 1 hasta 12:
+        flotante totalSueldosMes = 0
+
+        Para cada empleado en empleados:
+            totalSueldosMes += empleado.sueldos[mes]
+        Fin Para
+
+        Si totalSueldosMes < 4000000 Entonces
+            cantidadMesesMenosDeCuatroMillones += 1
+        Fin Si
+    Fin Para
+
+    Imprimir "Cantidad de meses con un total de sueldos menor a 4 millones: " + cantidadMesesMenosDeCuatroMillones
+Fin Funcion
+
+// punto 8 guardamos los sueldos anuales en forma ascendente en el archivo liquidacion.txt con el nombre del empleado correspondiente
+Funcion GuardarSueldosAscendentes(sueldosAnuales, empleados):
+    Entero n = Longitud(sueldosAnuales)
+    Flotante auxiliar = 0
+    Para i desde 0 hasta n:
+        Para j desde 0 hasta n-i:
+            Si sueldosAnuales[j][1] < sueldosAnuales[j+1][1] Entonces
+                auxiliar = sueldosAnuales[j]
+                sueldosAnuales[j] = sueldosAnuales[j+1]
+                sueldosAnuales[j+1] = auxiliar
+            Fin Si
+        Fin Para
+    Fin Para
+
+    Archivo archivoLiquidacion = AbrirArchivo("liquidacion.txt", "escritura")
+
+    Para cada sueldo en sueldosAnuales:
+        EscribirLinea(archivoLiquidacion, empleados[sueldo[0]].nombre + ": $" + sueldo[1])
+    Fin Para
+
+    CerrarArchivo(archivoLiquidacion)
+Fin Funcion
+
